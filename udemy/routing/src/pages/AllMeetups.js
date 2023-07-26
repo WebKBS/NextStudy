@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import MeetupList from '../components/Meetups/MeetupList';
 const DUMMY_DATA = [
   {
@@ -17,10 +18,33 @@ const DUMMY_DATA = [
 ];
 
 const AllMeetups = () => {
+  const [list, setList] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    console.log('fetch!!');
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setList(data);
+    } catch (error) {
+      console.log('에러 내용', error);
+      setError(error); // 에러 상태를 업데이트합니다.
+    }
+  };
+
   return (
     <section>
       <div>All Page</div>
-      <MeetupList meetups={DUMMY_DATA} />
+      {error && <div>에러 발생: {error.message}</div>}
+      <MeetupList meetups={list} />
     </section>
   );
 };
