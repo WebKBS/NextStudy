@@ -32,12 +32,12 @@ const AllMeetups = () => {
   const fetchData = async () => {
     try {
       const meetups = [];
-      const response = await fetch('');
+      const response = await fetch('https://test-5ae71-default-rtdb.firebaseio.com/meetups');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log(data);
+      console.log('data=', data);
       for (const key in data) {
         const meetup = {
           id: key,
