@@ -1,5 +1,5 @@
-import EventItem from './event-item';
-import classes from './event-list.module.css';
+import EventItem from "./event-item";
+import classes from "./event-list.module.css";
 interface Event {
   id: string;
   title: string;
@@ -19,7 +19,16 @@ function EventList(props: EventListProps) {
   return (
     <ul className={classes.list}>
       {items.map((event) => (
-        <EventItem key={event.id} id={event.id} title={event.title} description={event.description} location={event.location} date={event.date} image={event.image} isFeatured={event.isFeatured} />
+        <EventItem
+          key={event.id}
+          id={event.id}
+          title={event.title}
+          description={event.description}
+          location={event.location}
+          date={event.date}
+          image={event.image}
+          isFeatured={event.isFeatured}
+        />
       ))}
     </ul>
   );
