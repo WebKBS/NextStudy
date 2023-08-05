@@ -25,7 +25,9 @@ function EventItem(props: Event) {
     year: "numeric",
   });
 
-  const formattedAddress = location.replace(", ", "\n");
+  const formattedAddress = location
+    ? location.replace(", ", "\n")
+    : "Default Address";
 
   const exploreLink = `/events/${id}`;
 

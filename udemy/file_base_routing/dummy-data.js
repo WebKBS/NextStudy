@@ -1,14 +1,4 @@
-export interface EventDataType {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  date: string;
-  image: string;
-  isFeatured: boolean;
-}
-
-const DUMMY_EVENTS: EventDataType[] = [
+const DUMMY_EVENTS = [
   {
     id: "e1",
     title: "Programming for everyone",
@@ -49,7 +39,7 @@ export function getAllEvents() {
   return DUMMY_EVENTS;
 }
 
-export function getFilteredEvents(dateFilter: any) {
+export function getFilteredEvents(dateFilter) {
   const { year, month } = dateFilter;
 
   let filteredEvents = DUMMY_EVENTS.filter((event) => {
@@ -62,6 +52,6 @@ export function getFilteredEvents(dateFilter: any) {
   return filteredEvents;
 }
 
-export function getEventById(id: any) {
+export function getEventById(id) {
   return DUMMY_EVENTS.find((event) => event.id === id);
 }
