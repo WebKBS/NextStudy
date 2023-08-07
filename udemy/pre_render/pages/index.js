@@ -22,11 +22,29 @@ export async function getStaticProps() {
   const jsonData = await fs.promises.readFile(filePath); // await를 사용하여 비동기적으로 호출
   const data = JSON.parse(jsonData);
 
+  if (!data) {
+    return {
+      redirect: {
+        destination: "/no-data",
+      },
+    };
+  }
+
+  if (data.products.length === 0) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       products: data.products,
     },
     revalidate: 10, // 시간을 부여해서 시간에 따라 변경사항을 추가한다
+    notFound: false, // true를 설정하면 not_found가 나타난다.
+    // redirect: {
+    //   destination: "/no-data",
+    // },
   };
 }
 
