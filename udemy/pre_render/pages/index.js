@@ -1,4 +1,5 @@
 import fs from "fs";
+import Link from "next/link";
 import path from "path";
 
 function HomePage(props) {
@@ -9,7 +10,9 @@ function HomePage(props) {
   return (
     <ul>
       {products.map((product) => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}>
+          <Link href={`/${product.id}`}>{product.title}</Link>
+        </li>
       ))}
     </ul>
   );
@@ -17,7 +20,6 @@ function HomePage(props) {
 
 // 항상 객체를 return 해야한다.
 export async function getStaticProps() {
-  console.log("re 제네레이트");
   const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
   const jsonData = await fs.promises.readFile(filePath); // await를 사용하여 비동기적으로 호출
   const data = JSON.parse(jsonData);
