@@ -3,9 +3,10 @@ import useSWR from "swr";
 
 const url = "https://test-5ae71-default-rtdb.firebaseio.com/sales.json";
 
-function LastSalesPage() {
-  const [sales, setSales] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
+function LastSalesPage(props) {
+  console.log(props);
+  const [sales, setSales] = useState(props.sales);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data, error } = useSWR(url, fetcher);
   console.log(data);
@@ -15,19 +16,19 @@ function LastSalesPage() {
     return data;
   }
 
-  useEffect(() => {
-    if (data) {
-      const transformedData = [];
-      for (const key in data) {
-        transformedData.push({
-          id: key,
-          username: data[key].username,
-          volume: data[key].volume,
-        });
-      }
-      setSales(transformedData);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     const transformedData = [];
+  //     for (const key in data) {
+  //       transformedData.push({
+  //         id: key,
+  //         username: data[key].username,
+  //         volume: data[key].volume,
+  //       });
+  //     }
+  //     setSales(transformedData);
+  //   }
+  // }, [data]);
 
   // useEffect(() => {
   //   setIsLoading(true);
@@ -51,7 +52,7 @@ function LastSalesPage() {
   //     });
   // }, []);
 
-  if (!data || !sales) {
+  if (!data && !sales) {
     return <p>Loading...</p>;
   }
 
@@ -69,4 +70,21 @@ function LastSalesPage() {
     </ul>
   );
 }
+
+export async function getStaticProps(context) {
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const transformedData = [];
+  for (const key in data) {
+    transformedData.push({
+      id: key,
+      username: data[key].username,
+      volume: data[key].volume,
+    });
+  }
+
+  return { props: { sales: transformedData }, revalidate: 10 };
+}
+
 export default LastSalesPage;
