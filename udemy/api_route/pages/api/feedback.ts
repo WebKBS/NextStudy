@@ -1,17 +1,31 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-
 import fs from "fs";
 import path from "path";
 
 interface Data {
-  message: string;
-  feedback?: Feedback;
+  feedback: Feedback[];
 }
+
 interface Feedback {
   id: string;
   email: string;
   text: string;
+}
+
+function buildFeedbackPath() {
+  return path.join(process.cwd(), "data", "feedback.json");
+}
+
+function extractFeedback(filePath: string): Feedback[] {
+  const fileData = fs.readFileSync(filePath).toString();
+  let data: Feedback[] = [];
+  try {
+    data = JSON.parse(fileData);
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+  }
+  return data;
 }
 
 export default function handler(
@@ -29,23 +43,17 @@ export default function handler(
       text: feedbackText,
     };
 
-    const filePath = path.join(process.cwd(), "data", "feedback.json");
-    const fileData = fs.readFileSync(filePath, "utf-8");
-
-    let data = [];
-
-    try {
-      data = JSON.parse(fileData);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
 
     data.push(newFeedback);
 
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-    res.status(201).json({ message: "Success!", feedback: newFeedback });
+    res.status(201).json({ feedback: [newFeedback] });
   } else {
-    res.status(200).json({ message: "Hello!!" });
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+    res.status(200).json({ feedback: data });
   }
 }
