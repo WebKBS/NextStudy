@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
+// document는 커스텀할때 사용한다
 class MyDocument extends Document {
   render() {
     return (
@@ -11,6 +12,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
+          <div id="overlay">ov</div>
           <Main />
           <NextScript />
         </body>
