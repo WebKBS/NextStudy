@@ -11,14 +11,24 @@ function HomePage() {
       const enteredEmail = emailInputRef.current.value;
       const enteredFeedback = feedbackInputRef.current.value;
 
-      console.log(enteredEmail, enteredFeedback);
+      const reqBody = { email: enteredEmail, text: enteredFeedback };
+
+      fetch("/api/feedback", {
+        method: "POST",
+        body: JSON.stringify(reqBody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
     }
   }
 
   return (
     <div>
       <h1>The Home Page</h1>
-      <form action="">
+      <form action="" onSubmit={submitFormHandler}>
         <div>
           <label htmlFor="email">이메일</label>
           <input type="email" id="email" ref={emailInputRef} />
