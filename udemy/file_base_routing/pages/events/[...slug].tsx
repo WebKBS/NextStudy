@@ -3,7 +3,7 @@ import EventList from "@/components/events/event-list";
 import ResultsTitle from "@/components/events/results-title";
 import Button from "@/components/ui/button";
 import { getFilteredEvents } from "@/helpers/api-util";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 
@@ -22,7 +22,7 @@ function FilteredEventsPage(props: any) {
   // const numYear = +filteredYear;
   // const numMonth = +filteredMonth;
 
-  if (props.hasError) {
+  if (props.events.length === 0) {
     return (
       <Fragment>
         <ErrorAlert>
@@ -60,7 +60,6 @@ function FilteredEventsPage(props: any) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
-
   const filterData = params?.slug as string[];
 
   const filteredYear = filterData[0];
