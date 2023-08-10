@@ -1,3 +1,4 @@
+import Head from "next/head";
 import useSWR from "swr";
 import ErrorAlert from "@/components/events/error-alert";
 import EventList from "@/components/events/event-list";
@@ -55,6 +56,13 @@ function FilteredEventsPage(props: any) {
   ) {
     return (
       <Fragment>
+        <Head>
+          <title>Filtered Events</title>
+          <meta
+            name="description"
+            content={`All events for the year ${numYear} and month  ${numMonth}`}
+          />
+        </Head>
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values!</p>
         </ErrorAlert>

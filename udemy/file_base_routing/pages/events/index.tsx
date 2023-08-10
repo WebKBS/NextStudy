@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { Fragment } from "react";
 import { getAllEvents } from "@/helpers/api-util";
 import EventList from "@/components/events/event-list";
@@ -15,6 +16,12 @@ function AllEventsPage(props: any) {
 
   return (
     <Fragment>
+      <Head>
+        <title>All Events</title>
+        <meta name="description" content="Find the latest events" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+      </Head>
       <EventsSearch onSearch={findEventsHandler} />
       <EventList items={events} />
     </Fragment>
