@@ -1,3 +1,4 @@
+import { Fragment, useState } from "react";
 import { buildFeedbackPath, extractFeedback } from "../api/feedback";
 
 interface Feedback {
@@ -8,12 +9,28 @@ interface Feedback {
 }
 
 function FeedbackPage(props: Feedback) {
+  const [feedbackData, setFeedbackData] = useState<Feedback>();
+
+  function loadFeedbackHandler(id: string) {
+    fetch(`/api/${id}`)
+      .then((response) => response.json())
+      .then((data) => setFeedbackData(data.feedback));
+  }
+
   return (
-    <ul>
-      {props.feedbackItems.map((item: Feedback) => (
-        <li key={item.id}>{item.text}</li>
-      ))}
-    </ul>
+    <Fragment>
+      {feedbackData && <p>{feedbackData.email}</p>}
+      <ul>
+        {props.feedbackItems.map((item: Feedback) => (
+          <li key={item.id}>
+            {item.text}
+            <button onClick={loadFeedbackHandler.bind(null, item.id)}>
+              Show Details
+            </button>
+          </li>
+        ))}
+      </ul>
+    </Fragment>
   );
 }
 
