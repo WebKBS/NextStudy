@@ -22,11 +22,9 @@ interface PropsType {
 
 function EventDetailsPage(props: PropsType) {
   const router = useRouter();
-  const eventId = router.query.eventId;
+  // const eventId = router.query.eventId;
   // const event = getEventById(eventId);
   const event = props.selectEvent;
-
-  console.log(event);
 
   if (!event) {
     return (
@@ -69,7 +67,7 @@ export async function getStaticPaths() {
   const path = events.map((event) => ({ params: { eventId: event.id } }));
 
   return {
-    paths: [],
+    paths: path,
     fallback: "blocking",
   };
 }
