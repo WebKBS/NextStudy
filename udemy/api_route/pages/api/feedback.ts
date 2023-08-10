@@ -13,11 +13,12 @@ interface Feedback {
   text: string;
 }
 
-function buildFeedbackPath() {
+// 외부 페이지에서 사용하기 위해 내보낸다.
+export function buildFeedbackPath() {
   return path.join(process.cwd(), "data", "feedback.json");
 }
 
-function extractFeedback(filePath: string): Feedback[] {
+export function extractFeedback(filePath: string): Feedback[] {
   const fileData = fs.readFileSync(filePath).toString();
   let data: Feedback[] = [];
   try {
