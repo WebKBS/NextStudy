@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDatabase, insertDocument } from "../../helpers/db-util";
+import {
+  checkDuplicateEmail,
+  connectToDatabase,
+  insertDocument,
+} from "../../helpers/db-util";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -19,6 +23,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
+      await checkDuplicateEmail(client, "newsletter", userEmail); // 가입된 이메일시 에러
       await insertDocument(client, "newsletter", { email: userEmail });
       client!.close();
     } catch (err) {
