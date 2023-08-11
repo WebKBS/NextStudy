@@ -18,7 +18,7 @@ function FilteredEventsPage(props: any) {
   const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL, (url) =>
     fetch(url).then((res) => res.json())
   );
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (data) {

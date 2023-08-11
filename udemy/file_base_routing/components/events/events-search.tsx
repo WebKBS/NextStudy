@@ -15,7 +15,7 @@ function EventsSearch(props: any) {
 
     props.onSearch(selectedYear, selectedMonth);
 
-    console.log("submitted");
+    // console.log("submitted");
   }
 
   return (
