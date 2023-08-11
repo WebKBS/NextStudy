@@ -1,16 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { MongoClient } from "mongodb";
-const url = process.env.MONGO_URI;
-
-async function connectToDatabase() {
-  const client = await MongoClient.connect(url!);
-  return client;
-}
-
-async function insertDocument(client: any, document: object) {
-  const db = client.db();
-  await db.collection("newsletter").insertOne(document);
-}
+import { connectToDatabase, insertDocument } from "../../helpers/db-util";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -30,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      await insertDocument(client, { email: userEmail });
+      await insertDocument(client, "newsletter", { email: userEmail });
       client!.close();
     } catch (err) {
       console.log(err);

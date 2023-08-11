@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { MongoClient, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
+import {
+  connectToDatabase,
+  getAllDcouments,
+  insertDocument,
+} from "@/helpers/db-util";
 const url = process.env.MONGO_URI_EVENTS;
 
 interface Comment {
@@ -13,7 +18,14 @@ interface Comment {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const eventId = req.query.id;
 
-  const client = await MongoClient.connect(url!);
+  let client;
+  try {
+    client = await connectToDatabase();
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "데이터베이스 연결실패" });
+    return; // 데이터베이스 연결 실패하면 바로 return한다.
+  }
 
   if (req.method === "POST") {
     const { email, name, text } = req.body;
@@ -26,6 +38,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       name.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid data" });
+      client.close();
+      return; // 유효성에 실패하면 클라이언트를 바로 닫고 리턴한다.
     }
 
     const newComment: Comment = {
@@ -35,24 +49,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       eventId,
     };
 
-    const db = client.db();
+    let result;
 
-    const result = await db.collection("comments").insertOne(newComment);
+    try {
+      result = await insertDocument(client, "comments", newComment);
+      newComment.id = result.insertedId;
+      res.status(201).json({ message: "Comment 추가 성공" });
+    } catch (err) {
+      console.log(err);
+      res.status(422).json({ message: "Invalid data" });
 
-    newComment.id = result.insertedId;
-
-    res.status(201).json({ message: "Comment 추가 성공" });
+      // 가장 아래 클리언트를 닫아야하기에 리턴하지 않는다.
+    }
   }
 
-  if (req.method === "GET") {
-    const db = client.db();
-    const documents = await db
-      .collection("comments")
-      .find()
-      .sort({ _id: -1 }) // -1 또는 +1로 내림차순 올림차순 순서를 변경할 수 있다.
-      .toArray();
+  let documents;
 
-    res.status(200).json({ comments: documents });
+  if (req.method === "GET") {
+    try {
+      documents = await getAllDcouments(client, "comments", { _id: -1 });
+      res.status(200).json({ comments: documents });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "comments 추가 실패" });
+      // 가장 아래 클리언트를 닫아야하기에 리턴하지 않는다.
+    }
   }
 
   client.close();
