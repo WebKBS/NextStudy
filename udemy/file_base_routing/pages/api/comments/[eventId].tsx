@@ -45,20 +45,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (req.method === "GET") {
-    const dummyList = [
-      {
-        id: "c1",
-        name: "kang",
-        text: "hello world",
-      },
-      {
-        id: "c2",
-        name: "kang",
-        text: "hello world",
-      },
-    ];
+    const db = client.db();
+    const documents = await db
+      .collection("comments")
+      .find()
+      .sort({ _id: -1 }) // -1 또는 +1로 내림차순 올림차순 순서를 변경할 수 있다.
+      .toArray();
 
-    res.status(200).json({ comments: dummyList });
+    res.status(200).json({ comments: documents });
   }
 
   client.close();
