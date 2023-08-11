@@ -5,8 +5,8 @@ import { Fragment } from "react";
 import EventSummary from "@/components/event-detail/event-summary";
 import EventLogistics from "@/components/event-detail/event-logistics";
 import EventContent from "@/components/event-detail/event-content";
-import ErrorAlert from "@/components/events/error-alert";
 import { GetStaticPropsContext } from "next";
+import Comments from "@/components/input/comments";
 
 interface EventType {
   id: string; // 이벤트 고유 ID
@@ -50,6 +50,7 @@ function EventDetailsPage(props: PropsType) {
         title={event.title}
       />
       <EventContent>{event.description}</EventContent>
+      <Comments eventId={event.id} />
     </Fragment>
   );
 }

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { getFeaturedEvents } from "../helpers/api-util";
 import EventList from "../components/events/event-list";
+import NewsletterPegistration from "../components/input/newsletter-registration";
 
 interface propsType {
   events: [];
@@ -15,6 +16,7 @@ function HomePage(props: propsType) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Head>
+      <NewsletterPegistration />
       <EventList items={props.events} />
     </div>
   );

@@ -12,7 +12,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-          <div id="overlay">ov</div>
+          <div id="overlay"></div>
           <Main />
           <NextScript />
         </body>

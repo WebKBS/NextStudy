@@ -1,6 +1,6 @@
 import Head from "next/head";
 import useSWR from "swr";
-import ErrorAlert from "@/components/events/error-alert";
+import ErrorAlert from "@/components/ui/error-alert";
 import EventList from "@/components/events/event-list";
 import ResultsTitle from "@/components/events/results-title";
 import Button from "@/components/ui/button";
