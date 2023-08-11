@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { MongoClient } from "mongodb";
+const url = process.env.MONGO_URI;
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const userEmail = req.body.email;
 
@@ -9,7 +11,13 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    // console.log(userEmail);
+    const client = await MongoClient.connect(url!);
+    const db = client.db();
+
+    await db.collection("emails").insertOne({ email: userEmail });
+
+    client.close();
+
     res.status(201).json({ message: "Success" });
   }
 }
