@@ -20,10 +20,15 @@ export async function insertDocument(
 export async function getAllDcouments(
   client: any,
   collection: string,
-  sort: object
+  sort: object,
+  filter = {}
 ) {
   const db = client.db();
-  const documents = await db.collection(collection).find().sort(sort).toArray();
+  const documents = await db
+    .collection(collection)
+    .find(filter)
+    .sort(sort)
+    .toArray();
 
   return documents;
 }
