@@ -9,11 +9,11 @@ interface Post {
   slug: string;
 }
 
-interface PostProps {
+interface PostsArray {
   posts: Post[];
 }
 
-function PostsGrid({ posts }: PostProps) {
+function PostsGrid({ posts }: PostsArray) {
   return (
     <ul className={classes.grid}>
       {posts.map((post) => (

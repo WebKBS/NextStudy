@@ -1,18 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import classes from "./posts-item.module.css";
+import classes from "./post-item.module.css";
+import { Post } from "@/types/post";
 
-interface PostItemProps {
-  post: {
-    title: string;
-    image: string;
-    excerpt: string;
-    date: string;
-    slug: string;
-  };
-}
-
-function PostItem({ post }: PostItemProps) {
+function PostItem({ post }: { post: Post }) {
   const { title, image, excerpt, date, slug } = post;
 
   const formattedDate = new Date(date).toLocaleDateString("ko-kr", {
@@ -25,9 +16,15 @@ function PostItem({ post }: PostItemProps) {
 
   return (
     <li className={classes.post}>
-      <Link href="">
+      <Link href={`/posts/${slug}`}>
         <div className={classes.image}>
-          <Image src={imagePath} alt={title} width={300} height={200} />
+          <Image
+            src={imagePath}
+            alt={title}
+            width={300}
+            height={200}
+            layout="responsive"
+          />
         </div>
         <div className={classes.content}>
           <h3>{title}</h3>
