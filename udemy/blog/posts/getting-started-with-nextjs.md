@@ -1,6 +1,6 @@
 ---
 title: "이것은 포스트 타이틀"
-date: "2023-02-10"
+date: "2023-02-08"
 image: getting-started-nextjs.png
 excerpt: "NextJS is a React framework"
 isFeatured: true
