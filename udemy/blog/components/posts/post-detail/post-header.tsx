@@ -1,8 +1,8 @@
-import { PostContent } from "@/types/post";
+import { PostContentType } from "@/types/post";
 import Image from "next/image";
 import classes from "./post-header.module.css";
 
-function PostHeader({ title, image }: PostContent) {
+function PostHeader({ title, image }: PostContentType) {
   return (
     <header className={classes.header}>
       <h1>{title}</h1>

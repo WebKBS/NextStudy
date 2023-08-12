@@ -2,23 +2,15 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
+import { Post } from "@/types/post";
 
-const DUMMY_POST = {
-  slug: "getting-started-with-nextjs",
-  title: "Getting Started with NextJS",
-  image: "getting-started-nextjs.png",
-  excerpt: "NextJS is a React framework",
-  date: "2023-02-22",
-  content: "# 첫번째 포스트",
-};
-
-function PostContent() {
-  const imagePath = `/images/posts/${DUMMY_POST.slug}/${DUMMY_POST.image}`;
+function PostContent({ post }: any) {
+  const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
   return (
     <article className={classes.content}>
-      <PostHeader title={DUMMY_POST.title} image={imagePath} />
-      <ReactMarkdown>{DUMMY_POST.content}</ReactMarkdown>
+      <PostHeader title={post.title} image={imagePath} />
+      <ReactMarkdown>{post.content}</ReactMarkdown>
     </article>
   );
 }
