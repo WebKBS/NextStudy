@@ -1,5 +1,7 @@
+import classes from "./Logo.module.css";
+
 function Logo() {
-  return <header></header>;
+  return <div className={classes.logo}>Kang Blog</div>;
 }
 
 export default Logo;
