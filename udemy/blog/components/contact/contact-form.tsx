@@ -8,19 +8,31 @@ function ContactForm() {
 
   function sendMessageHandler(event: FormEvent) {
     event.preventDefault();
-    console.log(enteredEmail, enteredName, enteredMessage);
+
+    const postData = {
+      email: enteredEmail,
+      name: enteredName,
+      message: enteredMessage,
+    };
 
     fetch("/api/contact", {
       method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        name: enteredName,
-        message: enteredMessage,
-      }),
+      body: JSON.stringify(postData),
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          alert("에러발생");
+          console.log(response);
+          return;
+        }
+        console.log(response);
+      })
+      .catch((err) => {
+        console.error("Error sending message:", err);
+      });
   }
 
   return (
