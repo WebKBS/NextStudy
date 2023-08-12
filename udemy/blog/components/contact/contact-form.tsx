@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import classes from "./contact-form.module.css";
 import Notification from "../ui/notification";
 
@@ -22,8 +22,21 @@ function ContactForm() {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredName, setEnteredName] = useState("");
   const [enteredMessage, setEntereMessage] = useState("");
-  const [requestStatus, setRequestStatus] = useState<string>(); // pending, success, error
-  const [requestError, setRequestError] = useState<string>();
+  const [requestStatus, setRequestStatus] = useState<string | null>(); // pending, success, error
+  const [requestError, setRequestError] = useState<string | null>();
+
+  useEffect(() => {
+    if (requestStatus === "success" || requestStatus === "error") {
+      const timer = setTimeout(() => {
+        setRequestStatus(null);
+        setRequestError(null);
+      }, 2400);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [requestStatus]);
 
   async function sendMessageHandler(event: FormEvent) {
     event.preventDefault();
@@ -39,6 +52,9 @@ function ContactForm() {
     try {
       await sendContactData(postData);
       setRequestStatus("success");
+      setEntereMessage("");
+      setEnteredEmail("");
+      setEnteredName("");
     } catch (err) {
       setRequestError(err instanceof Error ? err.message : "메세지 전송 실패");
       setRequestStatus("error");
