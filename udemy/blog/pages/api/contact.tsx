@@ -1,5 +1,12 @@
+import { MongoClient, ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import mysql from "mysql2/promise";
+
+interface MongoData {
+  id?: ObjectId;
+  email: string;
+  name: string;
+  message: string;
+}
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -17,37 +24,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const newMessage = {
+    const newMessage: MongoData = {
       email,
       name,
       message,
     };
 
-    // MySQL 연결 설정
-    const dbConnection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    });
+    let client;
 
     try {
-      // 데이터베이스에 데이터 입력
-      await dbConnection.query(
-        "INSERT INTO messages (email, name, message) VALUES (?, ?, ?)",
-        [email, name, message]
-      );
-
-      console.log("Data inserted into MySQL");
-
-      res.status(201).json({ message: "Form Success!!", messages: newMessage });
+      client = await MongoClient.connect(process.env.MONGODB_URL!);
     } catch (error) {
-      console.error("Error inserting data:", error);
-      res.status(500).json({ message: "Internal Server Error" });
-    } finally {
-      // 연결 닫기
-      dbConnection.end();
+      res.status(500).json({ message: "데이터베이스 연결 실패" });
+      return;
     }
+
+    const db = client.db();
+    // let result;
+    try {
+      const result = await db.collection("messages").insertOne(newMessage);
+      newMessage.id = result.insertedId;
+      console.log("message 전송 성공");
+    } catch (err) {
+      console.log(err);
+      client?.close();
+      res.status(500).json({ message: "데이터베이스 메세지 입력 실패" });
+      return;
+    }
+
+    client?.close();
+
+    res.status(201).json({ message: "Form Success!!", messages: newMessage });
   }
 }
 
