@@ -2,6 +2,7 @@ import { useState } from "react";
 import classes from "./auth-form.module.css";
 import { useRef } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 async function createUser(email, password) {
   const response = await fetch("/api/auth/signup", {
@@ -24,6 +25,7 @@ async function createUser(email, password) {
 function AuthForm() {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -46,10 +48,10 @@ function AuthForm() {
         email: enteredEmail,
         password: enteredPassword,
       });
-      console.log(result);
 
       if (!result.error) {
         // 로그인 성공하고 난 후
+        router.replace("/profile");
       } else {
         // 로그인 실패시
         alert(result.error);
