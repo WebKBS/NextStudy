@@ -46,6 +46,7 @@ function AuthForm() {
         email: enteredEmail,
         password: enteredPassword,
       });
+      console.log(result);
 
       if (!result.error) {
         // 로그인 성공하고 난 후
