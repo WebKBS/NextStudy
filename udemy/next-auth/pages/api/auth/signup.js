@@ -2,6 +2,10 @@ import { hashPassword } from "@/lib/auth";
 import { connetToDatabase } from "@/lib/db";
 
 async function handler(req, res) {
+  if (req.method !== "POST") {
+    return;
+  }
+
   const data = req.body;
 
   const { email, password } = data;
@@ -21,7 +25,15 @@ async function handler(req, res) {
 
   const db = client.db();
 
-  const hashedPassword = hashPassword(password);
+  const existingUser = await db.collection("users").findOne({ email });
+
+  if (existingUser) {
+    res.status("404").json({ message: "이미 가입한 이메일 입니다." });
+    client.close();
+    return;
+  }
+
+  const hashedPassword = await hashPassword(password);
 
   const result = await db.collection("users").insertOne({
     email,
@@ -29,6 +41,7 @@ async function handler(req, res) {
   });
 
   res.status(201).json({ message: "회원가입 완료" });
+  client.close();
 }
 
 export default handler;
