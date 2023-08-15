@@ -1,7 +1,6 @@
 import { verifyPassword } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import { getSession } from "next-auth/react";
-// import { getToken } from "next-auth/jwt";
 
 async function handler(req, res) {
   if (req.method !== "PATCH") {
@@ -9,7 +8,7 @@ async function handler(req, res) {
     return;
   }
 
-  const session = await getSession({ req });
+  const session = await getSession(req);
   console.log("세션 :", session);
 
   if (!session) {
