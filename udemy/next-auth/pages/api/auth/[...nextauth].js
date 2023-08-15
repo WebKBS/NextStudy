@@ -11,7 +11,7 @@ export default NextAuth({
   },
   providers: [
     CredentialsProvider({
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         const client = await connetToDatabase();
         const usersCollection = client.db().collection("users");
 
@@ -31,10 +31,11 @@ export default NextAuth({
 
         if (!isValid) {
           throw new Error("비밀번호가 일치하지 않습니다.");
+          client.close();
         }
 
         client.close();
-
+        console.log(req.body);
         // 비밀번호는 절대 내보내지 않는다.
         return { email: user.email };
       },
