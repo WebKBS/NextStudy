@@ -8,6 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export default NextAuth({
   session: {
     jwt: true,
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   providers: [
     CredentialsProvider({
@@ -35,7 +36,7 @@ export default NextAuth({
         }
 
         client.close();
-        console.log(req.body);
+
         // 비밀번호는 절대 내보내지 않는다.
         return { email: user.email };
       },

@@ -61,6 +61,7 @@ function AuthForm() {
       try {
         const result = await createUser(enteredEmail, enteredPassword);
         console.log(result);
+        switchAuthModeHandler();
       } catch (err) {
         console.log(err);
 

@@ -10,7 +10,7 @@ function MainNavigation() {
   // console.log(session);
 
   function logoutHandler() {
-    signOut();
+    signOut({ session });
   }
 
   return (
