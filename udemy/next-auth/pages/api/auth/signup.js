@@ -25,8 +25,8 @@ async function handler(req, res) {
 
   const db = client.db();
 
+  // 만약 가입한 이메일 일때 에러처리
   const existingUser = await db.collection("users").findOne({ email });
-
   if (existingUser) {
     res.status("404").json({ message: "이미 가입한 이메일 입니다." });
     client.close();
