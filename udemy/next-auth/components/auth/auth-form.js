@@ -40,25 +40,27 @@ function AuthForm() {
     // 만약 추가시 프론트 유효성검사는 여기에서
 
     if (isLogin) {
-      // login
+      // 로그인 조건
       const result = await signIn("credentials", {
         redirect: false,
         email: enteredEmail,
         password: enteredPassword,
       });
 
-      console.log(result);
-      alert(result.error);
-
       if (!result.error) {
         // 로그인 성공하고 난 후
+      } else {
+        // 로그인 실패시
+        alert(result.error);
       }
     } else {
+      // 회원가입 조건
       try {
         const result = await createUser(enteredEmail, enteredPassword);
         console.log(result);
       } catch (err) {
         console.log(err);
+
         console.log("회원가입 실패");
       }
     }
