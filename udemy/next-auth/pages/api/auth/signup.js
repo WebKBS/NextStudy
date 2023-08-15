@@ -1,5 +1,5 @@
 import { hashPassword } from "@/lib/auth";
-import { connetToDatabase } from "@/lib/db";
+import { connectToDatabase } from "@/lib/db";
 
 async function handler(req, res) {
   if (req.method !== "POST") {
@@ -21,7 +21,7 @@ async function handler(req, res) {
       .json({ message: "이메일 또는 비밀번호 유효성에 실패했습니다." });
   }
 
-  const client = await connetToDatabase();
+  const client = await connectToDatabase();
 
   const db = client.db();
 
