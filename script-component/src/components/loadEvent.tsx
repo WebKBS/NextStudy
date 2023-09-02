@@ -4,12 +4,8 @@ import { useEffect } from "react";
 
 export default function LoadEvent() {
   useEffect(() => {
-    console.log(" component hello!!");
+    console.log("방문자 체크");
   }, []);
 
-  return (
-    <>
-      <h2>About</h2>
-    </>
-  );
+  return <></>;
 }
