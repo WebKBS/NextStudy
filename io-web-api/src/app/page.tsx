@@ -1,26 +1,25 @@
 import styles from './page.module.css';
 import Element from '@/components/Element';
-import Image from 'next/image';
 
-interface Photo {
-  id: number;
-  title: string;
-  url: string;
-}
+// interface Photo {
+//   id: number;
+//   title: string;
+//   url: string;
+// }
 
-async function getData() {
-  const response = await fetch('https://jsonplaceholder.typicode.com/photos');
+// async function getData() {
+//   const response = await fetch('https://jsonplaceholder.typicode.com/photos');
 
-  if (!response.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data');
-  }
+//   if (!response.ok) {
+//     // This will activate the closest `error.js` Error Boundary
+//     throw new Error('Failed to fetch data');
+//   }
 
-  return response.json();
-}
+//   return response.json();
+// }
 
 export default async function Home() {
-  const data: Photo[] = await getData();
+  // const data: Photo[] = await getData();
 
   return (
     <main className={styles.main}>
@@ -32,7 +31,7 @@ export default async function Home() {
           </li>
         ))}
       </ul> */}
-      <Element data={data} />
+      <Element />
     </main>
   );
 }

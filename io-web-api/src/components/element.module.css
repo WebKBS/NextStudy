@@ -1,0 +1,11 @@
+.flex {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.p_element {
+  width: 24%;
+  height: 300px;
+  background: #ff0;
+}
