@@ -1,9 +1,10 @@
 import Link from "next/link";
+import Heading from "../../components/Heading";
 
 export default function ReviewsPage() {
   return (
     <div>
-      <h1>Reviews</h1>
+        <Heading>Reviews</Heading>
       <p>리뷰 페이지</p>
         <ul>
             <li>

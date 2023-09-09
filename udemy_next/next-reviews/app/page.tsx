@@ -1,7 +1,9 @@
+import Heading from "../components/Heading";
+
 export default function HomePage() {
   return (
     <>
-      <h1>Hello World</h1>
+    <Heading>Indie Game</Heading>
       <p>Welcome</p>
     </>
   );
