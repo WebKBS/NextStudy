@@ -25,7 +25,10 @@ export default function RootLayout({ children }: LayoutProps) {
             </nav>
         </header>
         <main>{children}</main>
-        <footer>FOOTER</footer>
+        <footer>
+            네이버 연결하기
+            <a href="https://naver.com" target="_blank">네이버</a>
+        </footer>
       </body>
     </html>
   );
