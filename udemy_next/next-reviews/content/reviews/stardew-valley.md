@@ -8,6 +8,14 @@ image: "/images/stardew-valley.jpg"
 
 ## Sub-heading
 
+```javascript
+const a = document.querySelector("Hello World")
+
+function b(a, b){
+    return a + b
+}
+```
+
 Rich text with __bold__ and _italic_.
 
 __Stardew Valley__ is a simulation role-playing video game developed by Eric "
