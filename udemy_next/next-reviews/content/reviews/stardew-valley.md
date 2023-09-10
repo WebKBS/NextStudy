@@ -1,3 +1,9 @@
+---
+title: "Start"
+date: "2023-05-04"
+image: "/images/stardew-valley.jpg"
+---
+
 # Heading
 
 ## Sub-heading
