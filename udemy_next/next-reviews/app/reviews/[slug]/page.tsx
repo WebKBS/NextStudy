@@ -3,8 +3,8 @@ import {getReview} from "@/lib/reviews";
 import Heading from "@/components/Heading";
 
 
-export default async function StartPage() {
-    const review = await getReview("stardew-valley")
+export default async function ReviewPage({params: {slug}}) {
+    const review = await getReview(slug)
     // console.log(data.title)
 
     return (
