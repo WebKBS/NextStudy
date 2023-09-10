@@ -12,7 +12,8 @@ export default async function StartPage() {
                  height="360"
                  className="mb-2 rounded"/>
             {/* 외부로부터 html 태그를 입력할때는 dangerouslySetInnerHTML 를 사용해야한다. */}
-            <article dangerouslySetInnerHTML={{__html: html}}/>
+            <article dangerouslySetInnerHTML={{__html: html}}
+                     className="max-w-screen-sm prose prose-slate"/>
         </>
     );
 }

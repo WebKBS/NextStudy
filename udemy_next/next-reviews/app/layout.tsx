@@ -15,9 +15,11 @@ export default function RootLayout({children}: LayoutProps) {
             <NavBar/>
         </header>
         <main className="py-3 grow">{children}</main>
-        <footer className="border-t py-3 text-center text-xs">
+        <footer className="border-t py-3 text-slate-500 text-center text-xs">
             네이버 연결하기{" "}
-            <a href="https://naver.com" className="hover:underline" target="_blank">네이버</a>
+            <a href="https://naver.com"
+               className="hover:underline text-orange-800"
+               target="_blank">네이버</a>
         </footer>
         </body>
         </html>
