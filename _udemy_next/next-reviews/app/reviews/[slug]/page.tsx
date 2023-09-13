@@ -1,17 +1,18 @@
 // import getReview from "@/lib/reviews"
 import {getReview, getSlugs} from "@/lib/reviews";
 import Heading from "@/components/Heading";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 
 // 정적 사이트 SSG 생성
-export async function generateStaticParams(){
+export async function generateStaticParams() {
     const slugs = await getSlugs();
 
-    return  slugs.map(slug => ({slug}));
+    return slugs.map(slug => ({slug}));
 }
 
 // 다이나믹 라우트 메타데이터 설정
-export async function generateMetadata({params: {slug}}): Promise<any>{
+export async function generateMetadata({params: {slug}}): Promise<any> {
     const review = await getReview(slug);
 
     return {
@@ -27,7 +28,10 @@ export default async function ReviewPage({params: {slug}}) {
     return (
         <>
             <Heading>{review.title}</Heading>
-            <p className="italic pb-2">{review.date}</p>
+            <div className="flex gap-3 items-baseline">
+                <p className="italic pb-2">{review.date}</p>
+                <ShareLinkButton/>
+            </div>
             <img src={review.image} alt="" width="640"
                  height="360"
                  className="mb-2 rounded"/>
