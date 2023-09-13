@@ -10,6 +10,16 @@ export async function generateStaticParams(){
     return  slugs.map(slug => ({slug}));
 }
 
+// 다이나믹 라우트 메타데이터 설정
+export async function generateMetadata({params: {slug}}): Promise<any>{
+    const review = await getReview(slug);
+
+    return {
+        // return으로 슬러그를 추출해서 타이틀을 내보낸다.
+        title: review.title
+    }
+}
+
 export default async function ReviewPage({params: {slug}}) {
     const review = await getReview(slug)
     // console.log(data.title)
