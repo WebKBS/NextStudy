@@ -7,6 +7,15 @@ interface LayoutProps {
     children: ReactNode;
 }
 
+// 부분적으로 메타데이터 타이틀 설정하는 방법
+export const metadata = {
+    title: {
+        default: "Indie Game",
+        template: "%s | Indie Gamer"
+    },
+    description: "This game description"
+}
+
 export default function RootLayout({children}: LayoutProps) {
     return (
         <html lang="en" className={`${exo2.variable} ${orbitron.variable}`}>
