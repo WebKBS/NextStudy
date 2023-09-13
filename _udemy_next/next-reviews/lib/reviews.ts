@@ -15,11 +15,11 @@ export async function getReview(slug: string) {
 }
 
 export async function getReviews() {
-    const files = await readdir("./content/reviews");
 
-    // file중에 md파일만 필터링한다. 중요~!!
-    const slugs = files.filter((file) => file.endsWith(".md")).map(file =>
-        file.slice(0, -".md".length));
+
+    const slugs = await  getSlugs();
+
+    console.log(slugs)
 
     const reviews = [];
     for (const slug of slugs) {
@@ -28,4 +28,12 @@ export async function getReviews() {
     }
 
     return reviews;
+}
+
+export async function getSlugs() {
+    // file중에 md파일만 필터링한다. 중요~!!
+    const files = await readdir("./content/reviews");
+
+    return files.filter((file) => file.endsWith(".md")).map(file =>
+        file.slice(0, -".md".length));
 }

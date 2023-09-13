@@ -8,7 +8,7 @@ export default function HomePage() {
             <p className="pb-3">Welcome</p>
             <div
                 className="border w-80 bg-white rounded shadow hover:shadow-xl sm:w-full">
-                <Link href='/reviews/start'
+                <Link href='/reviews/stardew-valley'
                       className="flex flex-col sm:flex-row">
                     <img src="/images/stardew-valley.jpg" alt="" width="320"
                          height="180"

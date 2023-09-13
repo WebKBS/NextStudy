@@ -1,7 +1,14 @@
 // import getReview from "@/lib/reviews"
-import {getReview} from "@/lib/reviews";
+import {getReview, getSlugs} from "@/lib/reviews";
 import Heading from "@/components/Heading";
 
+
+// 정적 사이트 SSG 생성
+export async function generateStaticParams(){
+    const slugs = await getSlugs();
+
+    return  slugs.map(slug => ({slug}));
+}
 
 export default async function ReviewPage({params: {slug}}) {
     const review = await getReview(slug)
