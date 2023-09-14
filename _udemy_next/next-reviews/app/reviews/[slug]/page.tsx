@@ -1,7 +1,7 @@
 // import getReview from "@/lib/reviews"
 import {getReview, getSlugs} from "@/lib/reviews";
 import Heading from "@/components/Heading";
-import ShareLinkButton from "@/components/ShareLinkButton";
+import ShareButtons from "@/components/ShareButtons";
 
 
 // 정적 사이트 SSG 생성
@@ -30,7 +30,7 @@ export default async function ReviewPage({params: {slug}}) {
             <Heading>{review.title}</Heading>
             <div className="flex gap-3 items-baseline">
                 <p className="italic pb-2">{review.date}</p>
-                <ShareLinkButton/>
+                <ShareButtons/>
             </div>
             <img src={review.image} alt="" width="640"
                  height="360"
