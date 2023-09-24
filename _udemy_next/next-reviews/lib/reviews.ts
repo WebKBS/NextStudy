@@ -25,7 +25,7 @@ export async function getReview(slug: string) {
     // }
 
 
-    const url = `${CMS_URL}/api/reviews?` + qs.stringify({
+    const {data} = await fetchReviews({
         filters: {slug: {$eq: slug}},
         fields: ["slug", "title", "subtitle", "publishedAt", "body"], // 가져올 데이터의 목록
         // populate: "*", // *을 하면 전체를 가져온다.
@@ -37,26 +37,18 @@ export async function getReview(slug: string) {
             pageSize: 1,
             withCount: false // 총 개수를 비활성화 한다.
         }
-    }, {encodeValuesOnly: true});
-    // encodeValuesOnly는 매개변수 이름을 인코딩하지 않는다는 뜻이다.
-
-    const response = await fetch(url);
-    const {data} = await response.json();
-    console.log("개별", url)
-    const {attributes} = data[0];
+    });
+    const item = data[0];
     return {
-        slug: attributes.slug, // slug를 내보내준다.
-        title: attributes.title,
-        date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
-        image: CMS_URL + attributes.image.data.attributes.url,
-        body: marked(attributes.body),
+        ...toReview(item),
+        body: marked(item.attributes.body),
     }
 
 }
 
 export async function getReviews() {
 
-    const url = `${CMS_URL}/api/reviews?` + qs.stringify({
+    const {data} = await fetchReviews({
         fields: ["slug", "title", "subtitle", "publishedAt"], // 가져올 데이터의 목록
         // populate: "*", // *을 하면 전체를 가져온다.
         populate: { // 선택적으로 가져올수 있다.
@@ -66,20 +58,9 @@ export async function getReviews() {
         pagination: { // 한페이지에 가져올 데이터의 개수를 정한다.
             pageSize: 6
         }
+    });
 
-    }, {encodeValuesOnly: true});
-    // encodeValuesOnly는 매개변수 이름을 인코딩하지 않는다는 뜻이다.
-
-    console.log("url: ", url)
-
-    const response = await fetch(url);
-    const {data} = await response.json();
-    return data.map(({attributes}) => ({
-        slug: attributes.slug, // slug를 내보내준다.
-        title: attributes.title,
-        date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
-        image: CMS_URL + attributes.image.data.attributes.url
-    }))
+    return data.map(toReview)
 
     // const slugs = await  getSlugs();
     //
@@ -103,4 +84,30 @@ export async function getSlugs() {
 
     return files.filter((file) => file.endsWith(".md")).map(file =>
         file.slice(0, -".md".length));
+}
+
+
+async function fetchReviews(params: object): Promise<any> {
+
+    const url = `${CMS_URL}/api/reviews?` + qs.stringify(params, {encodeValuesOnly: true});
+    console.log("Fetch", url)
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`CNS returns ${response.status} 에러 발생 ${url}`);
+    }
+    return await response.json();
+
+}
+
+function toReview(item) {
+    const {attributes} = item;
+
+    return {
+        slug: attributes.slug, // slug를 내보내준다.
+        title: attributes.title,
+        date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
+        image: CMS_URL + attributes.image.data.attributes.url
+    }
 }
