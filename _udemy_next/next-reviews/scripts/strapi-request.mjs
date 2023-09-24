@@ -2,14 +2,16 @@ import {writeFileSync} from "node:fs";
 import qs from "qs"
 
 const url = "http://localhost:1337/api/reviews" + "?" + qs.stringify({
-    fields: ["slug", "title", "subtitle", "publishedAt"], // 가져올 데이터의 목록
+    filters: {slug: {$eq: "hades-2018"}},
+    fields: ["slug", "title", "subtitle", "publishedAt", "body"], // 가져올 데이터의 목록
     // populate: "*", // *을 하면 전체를 가져온다.
     populate: { // 선택적으로 가져올수 있다.
         image: {fields: ["url"]}
     },
-    sort: ["publishedAt:desc"],  // 날짜기준으로 정렬할 수 있다.
+    // sort: ["publishedAt:desc"],  // 날짜기준으로 정렬할 수 있다.
     pagination: { // 한페이지에 가져올 데이터의 개수를 정한다.
-        pageSize: 6
+        pageSize: 1,
+        withCount: false // 총 개수를 비활성화 한다.
     }
 
 }, {encodeValuesOnly: true});
