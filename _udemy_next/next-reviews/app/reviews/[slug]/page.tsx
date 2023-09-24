@@ -5,11 +5,13 @@ import ShareButtons from "@/components/ShareButtons";
 
 
 // 정적 사이트 SSG 생성
-// export async function generateStaticParams() {
-//     const slugs = await getSlugs();
-//
-//     return slugs.map(slug => ({slug}));
-// }
+export async function generateStaticParams() {
+    const slugs = await getSlugs();
+
+    console.log(slugs)
+
+    return slugs.map(slug => ({slug}));
+}
 
 
 // 다이나믹 라우트 메타데이터 설정
@@ -24,7 +26,7 @@ export async function generateMetadata({params: {slug}}): Promise<any> {
 
 export default async function ReviewPage({params: {slug}}) {
     const review = await getReview(slug)
-    console.log(review)
+    // console.log(review)
 
     return (
         <>

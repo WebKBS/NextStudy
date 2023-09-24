@@ -17,7 +17,7 @@ const url = "http://localhost:1337/api/reviews" + "?" + qs.stringify({
 }, {encodeValuesOnly: true});
 // encodeValuesOnly는 매개변수 이름을 인코딩하지 않는다는 뜻이다.
 
-console.log("url: ", url)
+// console.log("url: ", url)
 
 const response = await fetch(url);
 const body = await response.json();

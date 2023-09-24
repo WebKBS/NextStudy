@@ -1,8 +1,5 @@
-import {readdir, readFile} from "node:fs/promises";
-import matter from "gray-matter";
 import {marked} from "marked";
 import qs from "qs";
-import {attribute} from "postcss-selector-parser";
 
 
 const CMS_URL = "http://localhost:1337";
@@ -79,18 +76,29 @@ export async function getReviews() {
 }
 
 export async function getSlugs() {
-    // file중에 md파일만 필터링한다. 중요~!!
-    const files = await readdir("./content/reviews");
+    // // file중에 md파일만 필터링한다. 중요~!!
+    // const files = await readdir("./content/reviews");
+    //
+    // return files.filter((file) => file.endsWith(".md")).map(file =>
+    //     file.slice(0, -".md".length));
 
-    return files.filter((file) => file.endsWith(".md")).map(file =>
-        file.slice(0, -".md".length));
+    const {data} = await fetchReviews({
+        fields: ["slug"],
+        sort: ["publishedAt:desc"],
+        pagination: {
+            pageSize: 100
+        }
+    });
+
+    return data.map(item => item.attributes.slug);
+
 }
 
 
 async function fetchReviews(params: object): Promise<any> {
 
     const url = `${CMS_URL}/api/reviews?` + qs.stringify(params, {encodeValuesOnly: true});
-    console.log("Fetch", url)
+    // console.log("Fetch", url)
 
     const response = await fetch(url);
 
