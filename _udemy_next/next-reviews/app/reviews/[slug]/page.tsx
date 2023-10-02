@@ -4,14 +4,17 @@ import Heading from "@/components/Heading";
 import ShareButtons from "@/components/ShareButtons";
 import Image from "next/image";
 
+// 런타임으로 변경 ** generateStaticParams와 함께 쓰지 않는다.
+export const dynamic = "force-dynamic";
+
 // 정적 사이트 SSG 생성
-export async function generateStaticParams() {
-  const slugs = await getSlugs();
+// export async function generateStaticParams() {
+//   const slugs = await getSlugs();
 
-  console.log(slugs);
+//   //   console.log(slugs);
 
-  return slugs.map((slug) => ({ slug }));
-}
+//   return slugs.map((slug) => ({ slug }));
+// }
 
 // 다이나믹 라우트 메타데이터 설정
 export async function generateMetadata({ params: { slug } }): Promise<any> {
