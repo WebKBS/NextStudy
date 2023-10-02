@@ -28,7 +28,7 @@ export async function generateMetadata({ params: { slug } }): Promise<any> {
 
 export default async function ReviewPage({ params: { slug } }) {
   const review = await getReview(slug);
-  // console.log(review)
+  console.log(review);
 
   return (
     <>
