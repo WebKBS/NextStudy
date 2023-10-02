@@ -2,7 +2,10 @@ import Heading from "@/components/Heading";
 import Link from "next/link";
 import { getFeaturedReview } from "@/lib/reviews";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+
+// 일정 간격 요청
+export const revalidate = 30;
 
 export default async function HomePage() {
   const review = await getFeaturedReview();
