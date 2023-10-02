@@ -104,7 +104,11 @@ async function fetchReviews(params: object): Promise<any> {
     qs.stringify(params, { encodeValuesOnly: true });
   // console.log("Fetch", url)
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    next: {
+      revalidate: 30,
+    },
+  });
 
   if (!response.ok) {
     throw new Error(`CNS returns ${response.status} 에러 발생 ${url}`);
