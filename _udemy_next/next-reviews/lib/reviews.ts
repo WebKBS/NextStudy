@@ -34,6 +34,12 @@ export async function getReview(slug: string) {
       withCount: false, // 총 개수를 비활성화 한다.
     },
   });
+
+  // 만약에 데이터가 없으면 null 반환
+  if (data.length === 0) {
+    return null;
+  }
+
   const item = data[0];
   return {
     ...toReview(item),

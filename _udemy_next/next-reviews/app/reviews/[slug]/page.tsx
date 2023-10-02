@@ -3,6 +3,7 @@ import { getReview, getSlugs } from "@/lib/reviews";
 import Heading from "@/components/Heading";
 import ShareButtons from "@/components/ShareButtons";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 // 런타임으로 변경 ** generateStaticParams와 함께 쓰지 않는다.
 export const dynamic = "force-dynamic";
@@ -20,6 +21,10 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params: { slug } }): Promise<any> {
   const review = await getReview(slug);
 
+  if (!review) {
+    notFound();
+  }
+
   return {
     // return으로 슬러그를 추출해서 타이틀을 내보낸다.
     title: review.title,
@@ -29,6 +34,10 @@ export async function generateMetadata({ params: { slug } }): Promise<any> {
 export default async function ReviewPage({ params: { slug } }) {
   const review = await getReview(slug);
   console.log(review);
+
+  if (!review) {
+    notFound();
+  }
 
   return (
     <>
