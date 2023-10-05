@@ -13,7 +13,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@strapi/strapi": "^4.11.4",
+    "@strapi/strapi": "^4.11.3",
     "@strapi/plugin-users-permissions": "^4.11.4",
     "@strapi/plugin-i18n": "^4.11.4",
     "better-sqlite3": "^8.4.0"
