@@ -12,7 +12,7 @@ export default function ShareLinkButton() {
             setClicked(true);
             setTimeout(() => setClicked(false), 1500);
         });
-        console.log("Hello", clicked);
+        // console.log("Hello", clicked);
 
     }
     return (

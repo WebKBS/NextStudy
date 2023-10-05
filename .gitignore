@@ -128,3 +128,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+_udemy_next/next-reviews-cms/data/db.sqlite3
+_udemy_next/next-reviews-cms/data/db.sqlite3
