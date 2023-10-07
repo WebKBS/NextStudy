@@ -62,6 +62,8 @@ export async function getReviews(pageSize) {
     },
   });
 
+  // console.log("리뷰", data.map(toReview));
+
   return data.map(toReview);
 
   // const slugs = await  getSlugs();
@@ -118,10 +120,10 @@ async function fetchReviews(params: object): Promise<any> {
 
 function toReview(item) {
   const { attributes } = item;
-
   return {
     slug: attributes.slug, // slug를 내보내준다.
     title: attributes.title,
+    subtitle: attributes.subtitle,
     date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
     image: CMS_URL + attributes.image.data.attributes.url,
   };
