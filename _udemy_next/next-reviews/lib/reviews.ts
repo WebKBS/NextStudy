@@ -3,10 +3,10 @@ import qs from "qs";
 
 const CMS_URL = "http://localhost:1337";
 
-export async function getFeaturedReview() {
-  const reviews = await getReviews();
-  return reviews[0];
-}
+// export async function getFeaturedReview() {
+//   const reviews = await getReviews();
+//   return reviews[0];
+// }
 
 export async function getReview(slug: string) {
   // const text = await readFile(`./content/reviews/${slug}.md`, "utf-8")
@@ -47,7 +47,7 @@ export async function getReview(slug: string) {
   };
 }
 
-export async function getReviews() {
+export async function getReviews(pageSize) {
   const { data } = await fetchReviews({
     fields: ["slug", "title", "subtitle", "publishedAt"], // 가져올 데이터의 목록
     // populate: "*", // *을 하면 전체를 가져온다.
@@ -58,7 +58,7 @@ export async function getReviews() {
     sort: ["publishedAt:desc"], // 날짜기준으로 정렬할 수 있다.
     pagination: {
       // 한페이지에 가져올 데이터의 개수를 정한다.
-      pageSize: 6,
+      pageSize,
     },
   });
 
