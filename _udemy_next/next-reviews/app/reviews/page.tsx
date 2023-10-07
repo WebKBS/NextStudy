@@ -9,19 +9,23 @@ export const metadata = {
   title: "Reviews",
 };
 
+const PAGE_SIZE = 6;
+
 export default async function ReviewsPage({ searchParams }) {
   // searchParams를 통해 현재 페이지를 전달한다.
   const page = parsePageParam(searchParams.page);
 
-  const reviews = await getReviews(6);
-  console.log(page);
+  const { reviews, pageCount } = await getReviews(PAGE_SIZE, page);
+  console.log(pageCount);
   // console.log(reviews)
   return (
     <div>
       <Heading>Reviews</Heading>
       <div className="flex gap-2">
         <Link href={`/reviews?page=${page - 1}`}>&lt;</Link>
-        <span>page {page}</span>
+        <span>
+          page {page} of {pageCount}
+        </span>
         <Link href={`/reviews?page=${page + 1}`}>&gt;</Link>
       </div>
       <ul className="flex flex-row gap-3 flex-wrap">

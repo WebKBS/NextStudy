@@ -47,8 +47,8 @@ export async function getReview(slug: string) {
   };
 }
 
-export async function getReviews(pageSize) {
-  const { data } = await fetchReviews({
+export async function getReviews(pageSize: number, page?: number) {
+  const { data, meta } = await fetchReviews({
     fields: ["slug", "title", "subtitle", "publishedAt"], // 가져올 데이터의 목록
     // populate: "*", // *을 하면 전체를 가져온다.
     populate: {
@@ -59,12 +59,16 @@ export async function getReviews(pageSize) {
     pagination: {
       // 한페이지에 가져올 데이터의 개수를 정한다.
       pageSize,
+      page,
     },
   });
 
   // console.log("리뷰", data.map(toReview));
 
-  return data.map(toReview);
+  return {
+    pageCount: meta.pagination.pageCount,
+    reviews: data.map(toReview),
+  };
 
   // const slugs = await  getSlugs();
   //
