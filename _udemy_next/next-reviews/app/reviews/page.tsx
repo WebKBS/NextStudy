@@ -9,14 +9,21 @@ export const metadata = {
   title: "Reviews",
 };
 
-export default async function ReviewsPage() {
-  const reviews = await getReviews(6);
+export default async function ReviewsPage({ searchParams }) {
+  // searchParams를 통해 현재 페이지를 전달한다.
+  const page = parsePageParam(searchParams.page);
 
+  const reviews = await getReviews(6);
+  console.log(page);
   // console.log(reviews)
   return (
     <div>
       <Heading>Reviews</Heading>
-      <p>리뷰 페이지</p>
+      <div className="flex gap-2">
+        <Link href={`/reviews?page=${page - 1}`}>&lt;</Link>
+        <span>page {page}</span>
+        <Link href={`/reviews?page=${page + 1}`}>&gt;</Link>
+      </div>
       <ul className="flex flex-row gap-3 flex-wrap">
         {reviews.map((file, index: number) => (
           <li
@@ -41,4 +48,15 @@ export default async function ReviewsPage() {
       </ul>
     </div>
   );
+}
+
+function parsePageParam(paramValue) {
+  if (paramValue) {
+    const page = parseInt(paramValue);
+    //isFinite 유한수 인지 판별한다. https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/isFinite
+    if (isFinite(page) && page > 0) {
+      return page;
+    }
+  }
+  return 1;
 }
