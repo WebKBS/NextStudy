@@ -2,6 +2,7 @@ import Link from "next/link";
 import Heading from "@/components/Heading";
 import { getReviews } from "@/lib/reviews";
 import Image from "next/image";
+import PaginationBar from "@/components/PaginationBar";
 
 export const dynamic = "force-dynamic";
 
@@ -21,13 +22,14 @@ export default async function ReviewsPage({ searchParams }) {
   return (
     <div>
       <Heading>Reviews</Heading>
-      <div className="flex gap-2">
+      <PaginationBar href="/reviews" page={page} pageCount={pageCount} />
+      {/* <div className="flex gap-2 pb-3">
         <Link href={`/reviews?page=${page - 1}`}>&lt;</Link>
         <span>
           page {page} of {pageCount}
         </span>
         <Link href={`/reviews?page=${page + 1}`}>&gt;</Link>
-      </div>
+      </div> */}
       <ul className="flex flex-row gap-3 flex-wrap">
         {reviews.map((file, index: number) => (
           <li
