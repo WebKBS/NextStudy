@@ -3,6 +3,7 @@ import Heading from "@/components/Heading";
 import { getReviews } from "@/lib/reviews";
 import Image from "next/image";
 import PaginationBar from "@/components/PaginationBar";
+import SearchBox from "@/components/SearchBox";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,11 @@ export default async function ReviewsPage({ searchParams }) {
   return (
     <div>
       <Heading>Reviews</Heading>
-      <PaginationBar href="/reviews" page={page} pageCount={pageCount} />
+      <div className="flex justify-between pb-3">
+        <PaginationBar href="/reviews" page={page} pageCount={pageCount} />
+        <SearchBox />
+      </div>
+
       {/* <div className="flex gap-2 pb-3">
         <Link href={`/reviews?page=${page - 1}`}>&lt;</Link>
         <span>
