@@ -19,7 +19,8 @@ export default async function ReviewsPage({ searchParams }) {
 
   const { reviews, pageCount } = await getReviews(PAGE_SIZE, page);
   console.log(pageCount);
-  // console.log(reviews)
+  // console.log(reviews.map(({ slug, title }) => ({ slug, title })));
+
   return (
     <div>
       <Heading>Reviews</Heading>
