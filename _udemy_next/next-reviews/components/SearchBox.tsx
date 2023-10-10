@@ -14,7 +14,12 @@ export default function SearchBox() {
   useEffect(() => {
     if (query.length > 1) {
       (async () => {
-        const reviews = await searchReviews(query);
+        // next서버에서 가져오기
+        const response = await fetch(
+          '/api/search?query=' + encodeURIComponent(query)
+        );
+        // const reviews = await searchReviews(query);
+        const reviews = await response.json();
         setReviews(reviews);
       })();
     } else {
