@@ -1,14 +1,14 @@
-import Link from "next/link";
-import Heading from "@/components/Heading";
-import {getReviews, getSearchableReviews} from "@/lib/reviews";
-import Image from "next/image";
-import PaginationBar from "@/components/PaginationBar";
-import SearchBox from "@/components/SearchBox";
+import Link from 'next/link';
+import Heading from '@/components/Heading';
+import { getReviews } from '@/lib/reviews';
+import Image from 'next/image';
+import PaginationBar from '@/components/PaginationBar';
+import SearchBox from '@/components/SearchBox';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: "Reviews",
+  title: 'Reviews',
 };
 
 const PAGE_SIZE = 6;
@@ -18,7 +18,7 @@ export default async function ReviewsPage({ searchParams }) {
   const page = parsePageParam(searchParams.page);
 
   const { reviews, pageCount } = await getReviews(PAGE_SIZE, page);
-  const searchableReviews = await  getSearchableReviews();
+  // const searchableReviews = await  getSearchableReviews();
   // console.log(searchParams);
   // console.log(reviews.map(({ slug, title }) => ({ slug, title })));
   // console.log(reviews);
@@ -28,7 +28,7 @@ export default async function ReviewsPage({ searchParams }) {
       <Heading>Reviews</Heading>
       <div className="flex justify-between pb-3">
         <PaginationBar href="/reviews" page={page} pageCount={pageCount} />
-        <SearchBox reviews={searchableReviews}/>
+        <SearchBox />
       </div>
 
       {/* <div className="flex gap-2 pb-3">

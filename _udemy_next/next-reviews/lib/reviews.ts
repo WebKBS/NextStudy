@@ -1,7 +1,7 @@
-import { marked } from "marked";
-import qs from "qs";
+import { marked } from 'marked';
+import qs from 'qs';
 
-const CMS_URL = "http://localhost:1337";
+const CMS_URL = 'http://localhost:1337';
 
 // export async function getFeaturedReview() {
 //   const reviews = await getReviews();
@@ -21,11 +21,11 @@ export async function getReview(slug: string) {
 
   const { data } = await fetchReviews({
     filters: { slug: { $eq: slug } },
-    fields: ["slug", "title", "subtitle", "publishedAt", "body"], // 가져올 데이터의 목록
+    fields: ['slug', 'title', 'subtitle', 'publishedAt', 'body'], // 가져올 데이터의 목록
     // populate: "*", // *을 하면 전체를 가져온다.
     populate: {
       // 선택적으로 가져올수 있다.
-      image: { fields: ["url"] },
+      image: { fields: ['url'] },
     },
     // sort: ["publishedAt:desc"],  // 날짜기준으로 정렬할 수 있다.
     pagination: {
@@ -49,13 +49,13 @@ export async function getReview(slug: string) {
 
 export async function getReviews(pageSize: number, page?: number) {
   const { data, meta } = await fetchReviews({
-    fields: ["slug", "title", "subtitle", "publishedAt"], // 가져올 데이터의 목록
+    fields: ['slug', 'title', 'subtitle', 'publishedAt'], // 가져올 데이터의 목록
     // populate: "*", // *을 하면 전체를 가져온다.
     populate: {
       // 선택적으로 가져올수 있다.
-      image: { fields: ["url"] },
+      image: { fields: ['url'] },
     },
-    sort: ["publishedAt:desc"], // 날짜기준으로 정렬할 수 있다.
+    sort: ['publishedAt:desc'], // 날짜기준으로 정렬할 수 있다.
     pagination: {
       // 한페이지에 가져올 데이터의 개수를 정한다.
       pageSize,
@@ -94,8 +94,8 @@ export async function getSlugs() {
   //     file.slice(0, -".md".length));
 
   const { data } = await fetchReviews({
-    fields: ["slug"],
-    sort: ["publishedAt:desc"],
+    fields: ['slug'],
+    sort: ['publishedAt:desc'],
     pagination: {
       pageSize: 100,
     },
@@ -104,21 +104,23 @@ export async function getSlugs() {
   return data.map((item) => item.attributes.slug);
 }
 
-export async function getSearchableReviews() {
+export async function searchReviews(query: any) {
   const { data } = await fetchReviews({
-    fields: ["slug", "title"],
-    sort: ["publishedAt:desc"],
+    filters: { title: { $containsi: query } },
+    fields: ['slug', 'title'],
+    sort: ['title'],
     pagination: {
-      pageSize: 100,
+      pageSize: 5,
     },
   });
 
-  return data.map(({attributes}) => ({
+  console.log(data);
+
+  return data.map(({ attributes }) => ({
     slug: attributes.slug,
     title: attributes.title,
   }));
 }
-
 
 async function fetchReviews(params: object): Promise<any> {
   const url =
@@ -144,7 +146,7 @@ function toReview(item) {
     slug: attributes.slug, // slug를 내보내준다.
     title: attributes.title,
     subtitle: attributes.subtitle,
-    date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
+    date: attributes.publishedAt.slice(0, 'yyyy-mm-dd'.length),
     image: CMS_URL + attributes.image.data.attributes.url,
   };
 }
