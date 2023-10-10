@@ -4,20 +4,22 @@ import { useIsClient } from '@/lib/hooks';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { searchReviews } from '@/lib/reviews';
+import { useDebounce } from 'use-debounce';
 
 export default function SearchBox() {
   const router = useRouter();
   const isClient = useIsClient();
   const [query, setQuery] = useState('');
+  const [deboundcedQuery] = useDebounce(query, 300);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    if (query.length > 1) {
+    if (deboundcedQuery.length > 1) {
       const controller = new AbortController();
 
       (async () => {
         // next서버에서 가져오기
-        const url = '/api/search?query=' + encodeURIComponent(query);
+        const url = '/api/search?query=' + encodeURIComponent(deboundcedQuery);
         const response = await fetch(url, { signal: controller.signal });
         // const reviews = await searchReviews(query);
         const reviews = await response.json();
@@ -28,8 +30,8 @@ export default function SearchBox() {
     } else {
       setReviews([]);
     }
-    console.log(query);
-  }, [query]);
+    console.log(deboundcedQuery);
+  }, [deboundcedQuery]);
 
   // console.log("searchbox isClient", isClient);
   // console.log("query: ", query)
