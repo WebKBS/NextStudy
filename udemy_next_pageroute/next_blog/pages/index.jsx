@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 function HomePage() {
-  console.log("[index]");
+  // console.log("[index]");
   return (
     <>
       <Head>
