@@ -28,6 +28,7 @@ function FirstPostPage({ post }) {
         <title>{post.title} - My Blog</title>
       </Head>
       <main>
+        <p>{post.date}</p>
         <h1>{post.title}</h1>
         {/* text로 들어온 body를 html을 허용해줘야한다. */}
         <article dangerouslySetInnerHTML={{ __html: post.body }}></article>
