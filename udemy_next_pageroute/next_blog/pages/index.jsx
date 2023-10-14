@@ -1,23 +1,19 @@
 import Head from "next/head";
 import Link from "next/link";
-import { getSlugs } from "../lib/posts";
+import { getPosts } from "../lib/posts";
 
 export async function getStaticProps() {
-  try {
-    const slugs = await getSlugs();
+  const posts = await getPosts();
 
-    return {
-      props: {
-        slugs,
-      },
-    };
-  } catch (error) {
-    console.error("에러 발생:", error);
-  }
+  return {
+    props: {
+      posts,
+    },
+  };
 }
 
-function HomePage({ slugs }) {
-  console.log("[index]", { slugs });
+function HomePage({ posts }) {
+  console.log("[index]", { posts });
 
   // console.log(slugs);
 
@@ -29,9 +25,9 @@ function HomePage({ slugs }) {
       <main>
         <h1>My Blog</h1>
         <ul>
-          {slugs.map((slug) => (
-            <li>
-              <Link href={`/posts/${slug}`}>{slug}</Link>
+          {posts.map((post) => (
+            <li key={post.slug}>
+              <Link href={`/posts/${post.slug}`}>{post.title}</Link>
             </li>
           ))}
         </ul>
