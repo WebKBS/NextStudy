@@ -1,4 +1,4 @@
-import { readFile } from "fs/promises";
+import { readFile, readdir } from "fs/promises";
 import { marked } from "marked";
 import matter from "gray-matter";
 
@@ -21,4 +21,14 @@ export async function getPost(slug) {
     console.error(`post파일 로드 실패: ${error}`);
     throw new Error("post 파일 로드 실패");
   }
+}
+
+export async function getSlugs() {
+  const suffix = ".md";
+  const files = await readdir("content/posts");
+  console.log("파일", files);
+
+  return files
+    .filter((file) => file.endsWith(suffix))
+    .map((file) => file.slice(0, -suffix.length));
 }

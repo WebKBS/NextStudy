@@ -1,12 +1,19 @@
 import Head from "next/head";
-import { getPost } from "../../lib/posts";
+import { getPost, getSlugs } from "../../lib/posts";
 
 export async function getStaticPaths() {
+  const slugs = await getSlugs();
+  console.log(slugs);
   return {
-    paths: [
-      { params: { slug: "first-post" } },
-      { params: { slug: "second-post" } },
-    ],
+    paths: slugs.map((slug) => ({
+      params: {
+        slug,
+      },
+    })),
+    // paths: [
+    //   { params: { slug: "first-post" } },
+    //   { params: { slug: "second-post" } },
+    // ],
     fallback: false, // fallback false를 설정하면 404페이지가 표시된다.
   };
 }
