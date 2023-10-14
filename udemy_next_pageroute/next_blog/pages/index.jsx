@@ -8,7 +8,7 @@ function HomePage() {
         <title>My Blog</title>
       </Head>
       <main>
-        <h1>My blog</h1>
+        <h1>My Blog</h1>
       </main>
     </>
   );
