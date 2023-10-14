@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { getPost } from "../../lib/posts";
+import { Html } from "next/document";
 
 // 정적 페이지 생성 getStaticProps
 // getStaticProps는 서버에서 실행 되고 빌드시 클라이언트 사이드이다..
@@ -28,7 +29,8 @@ function FirstPostPage({ post }) {
       </Head>
       <main>
         <h1>{post.title}</h1>
-        <p>{post.body}</p>
+        {/* text로 들어온 body를 html을 허용해줘야한다. */}
+        <article dangerouslySetInnerHTML={{ __html: post.body }}></article>
       </main>
     </>
   );
