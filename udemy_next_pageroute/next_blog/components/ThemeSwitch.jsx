@@ -23,7 +23,7 @@ function ThemeSwitch() {
   return (
     <>
       {/* 페이지 라우터는 로컬과 서버를 동시에 사용하기때문에 localstorage같은 것은 에러가 날수 있다. */}
-      {/* suppressHydrationWarning 코드를 넣어줘서 경고를 제외하자 */}
+      {/* suppressHydrationWarning 코드를 넣어줘서 경고를 명시적으로 제외하자 */}
       <button onClick={handleClick} suppressHydrationWarning>
         {text}
       </button>
