@@ -1,30 +1,14 @@
 'use client';
 
 import { createCommentAction } from '@/app/api/comments/[slug]/actions';
-import { useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 
 export default function CommentForm({ title, slug }) {
-  const [state, setState] = useState({ loading: false, error: null });
+  const [error, action] = useFormState(createCommentAction, null);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setState({ loading: true, error: null });
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const result = await createCommentAction(formData);
-
-    // console.log('formData: ', [...formData.entries()]);
-    console.log('result: ', result);
-    if (result?.isError) {
-      setState({ loading: false, error: result });
-    } else {
-      form.reset();
-      setState({ loading: false, error: null });
-    }
-  };
   return (
     <form
-      onSubmit={handleSubmit}
+      action={action}
       className="border bg-yellow-500 flex flex-col gap-2 mt-3 px-3 py-2 rounded"
     >
       <p className="pb-1">
@@ -54,15 +38,21 @@ export default function CommentForm({ title, slug }) {
           maxLength={500}
         ></textarea>
       </div>
-      {Boolean(state.error) && (
-        <p className="text-red-700">{state.error.message}</p>
-      )}
-      <button
-        disabled={state.loading}
-        className="bg-orange-800 rounded px-2 self-center text-slate-50 w-32 hover:bg-orange-700 disabled:bg-slate-500 disabled:cursor-not-allowed"
-      >
-        Submit
-      </button>
+      {Boolean(error) && <p className="text-red-700">{error.message}</p>}
+      <SubmitButton />
     </form>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      disabled={pending}
+      className="bg-orange-800 rounded px-2 self-center text-slate-50 w-32 hover:bg-orange-700 disabled:bg-slate-500 disabled:cursor-not-allowed"
+    >
+      Submit
+    </button>
   );
 }

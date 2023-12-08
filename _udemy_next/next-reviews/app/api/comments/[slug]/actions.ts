@@ -3,7 +3,7 @@ import { createComment } from '@/lib/comments';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-export async function createCommentAction(formData) {
+export async function createCommentAction(_currentState, formData) {
   console.log('[action] user: ', formData.get('user'));
   console.log('[action] message: ', formData.get('message'));
 
