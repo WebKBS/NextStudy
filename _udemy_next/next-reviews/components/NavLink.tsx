@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function NavLink({
   children,
@@ -18,7 +18,7 @@ export default function NavLink({
     return <span className="text-orange-800">{children}</span>;
   }
 
-  console.log("pathname: ", pathname);
+  // console.log('pathname: ', pathname);
   return (
     <Link
       href={href}

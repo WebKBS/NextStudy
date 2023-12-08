@@ -1,4 +1,5 @@
 import { createComment } from '@/lib/comments';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export default function CommentForm({ title, slug }) {
@@ -14,6 +15,7 @@ export default function CommentForm({ title, slug }) {
     });
 
     console.log('created: ', message);
+    revalidatePath(`/reviews/${slug}`); // 캐시 삭제
     redirect(`/reviews/${slug}`);
   }
 
