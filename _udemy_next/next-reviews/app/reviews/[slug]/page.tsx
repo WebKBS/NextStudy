@@ -1,12 +1,14 @@
 // import getReview from "@/lib/reviews"
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
+import CommentListSkeleton from '@/components/CommentListSkeleton';
 import Heading from '@/components/Heading';
 import ShareButtons from '@/components/ShareButtons';
 import { getReview, getSlugs } from '@/lib/reviews';
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 // 런타임으로 변경 ** generateStaticParams와 함께 쓰지 않는다.
 // export const dynamic = "force-dynamic";
@@ -69,7 +71,9 @@ export default async function ReviewPage({ params: { slug } }) {
           Comments
         </h2>
         <CommentForm title={review.title} slug={slug} />
-        <CommentList slug={slug} />
+        <Suspense fallback={<CommentListSkeleton />}>
+          <CommentList slug={slug} />
+        </Suspense>
       </section>
     </>
   );
