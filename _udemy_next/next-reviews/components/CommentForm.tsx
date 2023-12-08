@@ -1,32 +1,15 @@
-import { createComment } from '@/lib/comments';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { createCommentAction } from '@/app/api/comments/[slug]/actions';
 
 export default function CommentForm({ title, slug }) {
-  async function action(formData) {
-    'use server';
-    console.log('[action] user: ', formData.get('user'));
-    console.log('[action] message: ', formData.get('message'));
-
-    const message = await createComment({
-      slug,
-      user: formData.get('user'),
-      message: formData.get('message'),
-    });
-
-    console.log('created: ', message);
-    revalidatePath(`/reviews/${slug}`); // 캐시 삭제
-    redirect(`/reviews/${slug}`);
-  }
-
   return (
     <form
-      action={action}
+      action={createCommentAction}
       className="border bg-yellow-500 flex flex-col gap-2 mt-3 px-3 py-2 rounded"
     >
       <p className="pb-1">
         Already played <strong>{title}</strong>? Have your say!
       </p>
+      <input type="hidden" name="slug" value={slug} />
       <div className="flex">
         <label htmlFor="userField" className="shrink-0 w-32">
           Your name
@@ -36,6 +19,8 @@ export default function CommentForm({ title, slug }) {
           id="userField"
           className="border px-2 py-1 rounded w-48"
           name="user"
+          required
+          maxLength={50}
         />
       </div>
       <div className="flex">
@@ -46,6 +31,8 @@ export default function CommentForm({ title, slug }) {
           id="messageField"
           className="border px-2 py-1 rounded w-full"
           name="message"
+          required
+          maxLength={500}
         ></textarea>
       </div>
       <button className="bg-orange-800 rounded px-2 self-center text-slate-50 w-32 hover:bg-orange-700">
