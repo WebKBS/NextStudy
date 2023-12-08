@@ -4,11 +4,11 @@ import { createCommentAction } from '@/app/api/comments/[slug]/actions';
 import { useState } from 'react';
 
 export default function CommentForm({ title, slug }) {
-  const [error, setError] = useState(null);
+  const [state, setState] = useState({ loading: false, error: null });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(null);
+    setState({ loading: true, error: null });
     const form = event.currentTarget;
     const formData = new FormData(form);
     const result = await createCommentAction(formData);
@@ -16,9 +16,10 @@ export default function CommentForm({ title, slug }) {
     // console.log('formData: ', [...formData.entries()]);
     console.log('result: ', result);
     if (result?.isError) {
-      setError(result);
+      setState({ loading: false, error: result });
     } else {
       form.reset();
+      setState({ loading: false, error: null });
     }
   };
   return (
@@ -53,8 +54,13 @@ export default function CommentForm({ title, slug }) {
           maxLength={500}
         ></textarea>
       </div>
-      {Boolean(error) && <p className="text-red-700">{error.message}</p>}
-      <button className="bg-orange-800 rounded px-2 self-center text-slate-50 w-32 hover:bg-orange-700">
+      {Boolean(state.error) && (
+        <p className="text-red-700">{state.error.message}</p>
+      )}
+      <button
+        disabled={state.loading}
+        className="bg-orange-800 rounded px-2 self-center text-slate-50 w-32 hover:bg-orange-700 disabled:bg-slate-500 disabled:cursor-not-allowed"
+      >
         Submit
       </button>
     </form>
